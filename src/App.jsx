@@ -9,15 +9,18 @@ import useKeyPress from './hooks/useKeyPress';
 import { DEFAULT_DOT_SIZE, DEFAULT_DOT_DENSITY } from './utils/constants';
 
 const App = () => {
+  // use state to store test results and test state
   const [testResults, setTestResults] = useState([]);
+  // use state to store test state and test parameters
   const [testState, setTestState] = useState('Setup');
+  // use state that receive the default parameters
   const [testParameters, setTestParameters] = useState({
     dotSize: DEFAULT_DOT_SIZE,
     dotDensity: DEFAULT_DOT_DENSITY,
     viewingDistance: 60,
     screenWidth: 40
   });
-
+  // variable to store the current disparity, break point, recovery point, isTesting, testDirection, startTest, markBreakPoint, markRecoveryPoint, completeTest
   const {
     currentDisparity,
     breakPoint,
@@ -30,6 +33,7 @@ const App = () => {
     completeTest
   } = useTestLogic(testParameters.viewingDistance, testParameters.screenWidth);
 
+  // function to handle the test start and set the test parameters
   const handleTestStart = useCallback((parameters) => {
     setTestParameters(parameters);
     setTestState('Testing');
