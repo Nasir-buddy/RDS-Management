@@ -18,7 +18,7 @@ const TestParameters = ({ parameters, setParameters }) => {
                     name="testDirection"
                     value={parameters.testDirection}
                     onChange={handleChange}
-                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+                    className="mt-1 block w-full p-2 border border-gray-300 bg-[#1e2939] rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                 >
                     {TEST_TYPES.map(type => (
                         <option key={type} value={type}>{type}</option>
