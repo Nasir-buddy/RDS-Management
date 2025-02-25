@@ -1,35 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+import React, { useState } from 'react';
+import RDSCanvas from './components/Canvas/RDSCanvas';
+import ControlPanel from './components/Controls/ControlPanel';
+import ResultsTable from './components/Results/ResultsTable';
+import { Alert } from './components/ui/Alert';
+
+const App = () => {
+  const [testResults, setTestResults] = useState([]);
+  const [testState, setTestState] = useState('Setup');
+
+  const handleTestStart = () => {
+    setTestState('Testing');
+  };
+
+  const handleTestComplete = (result) => {
+    setTestResults((prevResults) => [...prevResults, result]);
+    setTestState('Complete');
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="flex flex-col items-center justify-center bg-gray-900 text-white min-h-screen">
+      <h1 className="text-4xl font-bold mb-8">Fusional Vergence Range Testing</h1>
+      <ControlPanel onTestStart={handleTestStart} onTestComplete={handleTestComplete} />
+      <RDSCanvas testState={testState} />
+      {testResults.length > 0 && <ResultsTable results={testResults} />}
+      {testState === 'Complete' && <Alert message="Test completed successfully!" />}
+    </div>
+  );
+};
 
-export default App
+export default App;
