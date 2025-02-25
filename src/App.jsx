@@ -29,7 +29,7 @@ const App = () => {
   //  markBreakPoint,
   //  markRecoveryPoint,
   //  completeTest
-  
+
   const {
     currentDisparity,
     breakPoint,
@@ -67,7 +67,7 @@ const App = () => {
       handleTestAction('break');
     }
   });
-  
+
   useKeyPress('r', () => {
     if (isTesting && breakPoint !== null && recoveryPoint === null) {
       handleTestAction('recovery');
@@ -77,34 +77,36 @@ const App = () => {
   return (
     <div className="flex flex-col items-center justify-center bg-gray-900 text-white min-h-screen p-4">
       <h1 className="text-4xl font-bold my-5">Fusional Vergence Range Testing</h1>
-      
-      <div className="w-full max-w-4xl">
-        <ControlPanel 
-          onTestStart={handleTestStart}
-          onTestComplete={handleTestAction}
-          isTesting={isTesting}
-          breakPoint={breakPoint}
-          recoveryPoint={recoveryPoint}
-        />
-        
-        <div className="mb-4">
-          {isTesting && (
-            <div className="bg-gray-800 p-2 rounded mb-2 text-center">
-              <p>Current Disparity: {Math.abs(currentDisparity).toFixed(1)} pixels</p>
-              {breakPoint && <p>Break Point: {breakPoint} arc seconds</p>}
-            </div>
-          )}
-          
-          <RDSCanvas 
-            testState={testState}
-            currentDisparity={currentDisparity}
-            dotSize={testParameters.dotSize}
-            dotDensity={testParameters.dotDensity}
-            screenWidth={testParameters.screenWidth}
-            viewingDistance={testParameters.viewingDistance}
+
+      <div>
+        <div className="w-full max-w-4xl">
+          <ControlPanel
+            onTestStart={handleTestStart}
+            onTestComplete={handleTestAction}
+            isTesting={isTesting}
+            breakPoint={breakPoint}
+            recoveryPoint={recoveryPoint}
           />
+
+          <div className="mb-4">
+            {isTesting && (
+              <div className="bg-gray-800 p-2 rounded mb-2 text-center">
+                <p>Current Disparity: {Math.abs(currentDisparity).toFixed(1)} pixels</p>
+                {breakPoint && <p>Break Point: {breakPoint} arc seconds</p>}
+              </div>
+            )}
+
+            <RDSCanvas
+              testState={testState}
+              currentDisparity={currentDisparity}
+              dotSize={testParameters.dotSize}
+              dotDensity={testParameters.dotDensity}
+              screenWidth={testParameters.screenWidth}
+              viewingDistance={testParameters.viewingDistance}
+            />
+          </div>
         </div>
-        
+
         {testResults.length > 0 && (
           <div className="mt-6">
             <h2 className="text-2xl font-bold mb-2">Test Results</h2>
@@ -112,13 +114,13 @@ const App = () => {
             <ResultsExport results={testResults} />
           </div>
         )}
-        
+
         {testState === 'Complete' && (
-          <Alert 
-            message={`Test completed successfully! Break point: ${breakPoint} arc seconds, Recovery point: ${recoveryPoint} arc seconds`} 
+          <Alert
+            message={`Test completed successfully! Break point: ${breakPoint} arc seconds, Recovery point: ${recoveryPoint} arc seconds`}
           />
         )}
-        
+
         <div className="mt-6 bg-gray-800 p-4 rounded">
           <h3 className="text-xl font-bold mb-2">Instructions</h3>
           <ul className="list-disc pl-5 space-y-1">
