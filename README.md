@@ -66,7 +66,7 @@ Make sure you have the following installed:
 
 ## Usage
 
-After starting the development server, open your web browser and navigate to `http://localhost:3000` to access the application.
+After starting the development server, open your web browser and navigate to `http://localhost:3000  || or any available port will automatically select by the compiler` to access the application.
 
 ## Contributing
 
