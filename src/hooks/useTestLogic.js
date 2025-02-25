@@ -1,59 +1,96 @@
+import { useState, useCallback, useEffect } from 'react';
+import { TEST_TYPES, DEFAULT_INCREASE_RATE } from '../utils/constants';
+import { pixelsToArcSeconds } from '../utils/calculations';
 
-import { useState, useEffect } from 'react';
-
-const useTestLogic = () => {
+const useTestLogic = (viewingDistance = 60, screenWidth = 40) => {
     const [currentDisparity, setCurrentDisparity] = useState(0);
     const [breakPoint, setBreakPoint] = useState(null);
     const [recoveryPoint, setRecoveryPoint] = useState(null);
     const [isTesting, setIsTesting] = useState(false);
-    const [testResults, setTestResults] = useState([]);
-
-    const startTest = () => {
+    const [testDirection, setTestDirection] = useState('Convergence');
+    const [testNumber, setTestNumber] = useState(1);
+    const [disparityIncreaseRate, setDisparityIncreaseRate] = useState(DEFAULT_INCREASE_RATE);
+    
+    // Timer for auto-incrementing disparity
+    useEffect(() => {
+        let timer;
+        if (isTesting && breakPoint === null) {
+            timer = setInterval(() => {
+                setCurrentDisparity(prev => {
+                    // For convergence (positive disparity increases)
+                    // For divergence (negative disparity decreases)
+                    return testDirection === 'Convergence' 
+                        ? prev + disparityIncreaseRate 
+                        : prev - disparityIncreaseRate;
+                });
+            }, 500); // Update every 500ms
+        }
+        return () => clearInterval(timer);
+    }, [isTesting, breakPoint, testDirection, disparityIncreaseRate]);
+    
+    const startTest = useCallback((testParams = {}) => {
+        const direction = testParams.testDirection || 'Convergence';
+        setTestDirection(direction);
+        setDisparityIncreaseRate(testParams.increaseRate || DEFAULT_INCREASE_RATE);
         setCurrentDisparity(0);
         setBreakPoint(null);
         setRecoveryPoint(null);
         setIsTesting(true);
-    };
-
-    const updateDisparity = (increaseRate) => {
-        if (isTesting) {
-            setCurrentDisparity(prev => prev + increaseRate);
-        }
-    };
-
-    const markBreakPoint = () => {
+    }, []);
+    
+    const markBreakPoint = useCallback(() => {
         if (isTesting && breakPoint === null) {
-            setBreakPoint(currentDisparity);
+            // Convert current pixel disparity to arc seconds
+            const breakDisparity = pixelsToArcSeconds(
+                Math.abs(currentDisparity), 
+                viewingDistance, 
+                screenWidth
+            ).toFixed(1);
+            
+            setBreakPoint(breakDisparity);
         }
-    };
-
-    const markRecoveryPoint = () => {
+    }, [isTesting, breakPoint, currentDisparity, viewingDistance, screenWidth]);
+    
+    const markRecoveryPoint = useCallback(() => {
         if (isTesting && breakPoint !== null && recoveryPoint === null) {
-            setRecoveryPoint(currentDisparity);
+            // Convert current pixel disparity to arc seconds
+            const recoveryDisparity = pixelsToArcSeconds(
+                Math.abs(currentDisparity), 
+                viewingDistance, 
+                screenWidth
+            ).toFixed(1);
+            
+            setRecoveryPoint(recoveryDisparity);
             setIsTesting(false);
-            recordResult();
+            
+            // Return the result for recording
+            return {
+                test_num: testNumber,
+                type: testDirection,
+                break_point: breakPoint,
+                recovery_point: recoveryDisparity,
+                time: new Date().toLocaleString()
+            };
         }
-    };
-
-    const recordResult = () => {
-        const result = {
-            breakPoint,
-            recoveryPoint,
-            timestamp: new Date().toISOString(),
-        };
-        setTestResults(prev => [...prev, result]);
-    };
-
+        return null;
+    }, [isTesting, breakPoint, recoveryPoint, currentDisparity, testNumber, testDirection, viewingDistance, screenWidth]);
+    
+    const completeTest = useCallback(() => {
+        const result = markRecoveryPoint();
+        setTestNumber(prev => prev + 1);
+        return result;
+    }, [markRecoveryPoint]);
+    
     return {
         currentDisparity,
         breakPoint,
         recoveryPoint,
         isTesting,
-        testResults,
+        testDirection,
         startTest,
-        updateDisparity,
         markBreakPoint,
         markRecoveryPoint,
+        completeTest
     };
 };
 
