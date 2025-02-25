@@ -43,7 +43,7 @@ const ControlPanel = ({ onTestStart, onTestComplete, isTesting, breakPoint, reco
                     <div className="flex flex-col space-y-4 mt-4">
                         <button 
                             onClick={handleStartClick} 
-                            className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+                            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
                         >
                             Start Test
                         </button>

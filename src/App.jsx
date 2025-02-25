@@ -20,7 +20,16 @@ const App = () => {
     viewingDistance: 60,
     screenWidth: 40
   });
-  // variable to store the current disparity, break point, recovery point, isTesting, testDirection, startTest, markBreakPoint, markRecoveryPoint, completeTest
+  // variable to store the current disparity,
+  //  break point,
+  //  recovery point,
+  //  isTesting,
+  //  testDirection,
+  //  startTest,
+  //  markBreakPoint,
+  //  markRecoveryPoint,
+  //  completeTest
+  
   const {
     currentDisparity,
     breakPoint,
