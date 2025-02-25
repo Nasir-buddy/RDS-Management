@@ -17,13 +17,11 @@ const useTestLogic = (viewingDistance = 60, screenWidth = 40) => {
         if (isTesting && breakPoint === null) {
             timer = setInterval(() => {
                 setCurrentDisparity(prev => {
-                    // For convergence (positive disparity increases)
-                    // For divergence (negative disparity decreases)
                     return testDirection === 'Convergence' 
                         ? prev + disparityIncreaseRate 
                         : prev - disparityIncreaseRate;
                 });
-            }, 500); // Update every 500ms
+            }, 500); 
         }
         return () => clearInterval(timer);
     }, [isTesting, breakPoint, testDirection, disparityIncreaseRate]);
