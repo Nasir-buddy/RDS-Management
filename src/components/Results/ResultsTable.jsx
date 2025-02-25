@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 
 const ResultsTable = ({ results }) => {
     return (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto max-h-[200px]">
             <table className="min-w-full bg-white border border-gray-300">
                 <thead>
-                    <tr className="bg-gray-200 text-black">
+                    <tr className="bg-gray-300 text-black">
                         <th className="py-2 px-4 border-b">Test #</th>
                         <th className="py-2 px-4 border-b">Test Type</th>
                         <th className="py-2 px-4 border-b">Break Point (arcsec)</th>
