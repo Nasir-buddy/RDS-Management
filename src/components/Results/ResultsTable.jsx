@@ -7,7 +7,7 @@ const ResultsTable = ({ results }) => {
         <div className="overflow-x-auto">
             <table className="min-w-full bg-white border border-gray-300">
                 <thead>
-                    <tr className="bg-gray-200">
+                    <tr className="bg-gray-200 text-black">
                         <th className="py-2 px-4 border-b">Test #</th>
                         <th className="py-2 px-4 border-b">Test Type</th>
                         <th className="py-2 px-4 border-b">Break Point (arcsec)</th>
@@ -17,7 +17,7 @@ const ResultsTable = ({ results }) => {
                 </thead>
                 <tbody>
                     {results.map((result, index) => (
-                        <tr key={index} className="hover:bg-gray-100">
+                        <tr key={index} className="hover:bg-gray-100 text-black">
                             <td className="py-2 px-4 border-b">{result.test_num}</td>
                             <td className="py-2 px-4 border-b">{result.type}</td>
                             <td className="py-2 px-4 border-b">{result.break_point}</td>
