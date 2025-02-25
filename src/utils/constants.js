@@ -1,3 +1,4 @@
+// constants that used in application
 export const DEFAULT_VIEWING_DISTANCE_CM = 60;
 export const DEFAULT_SCREEN_WIDTH_CM = 40;
 export const DEFAULT_DOT_SIZE = 4;
