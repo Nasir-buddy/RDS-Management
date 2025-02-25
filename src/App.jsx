@@ -78,8 +78,8 @@ const App = () => {
     <div className="flex flex-col items-center justify-center bg-gray-900 text-white min-h-screen p-4">
       <h1 className="text-4xl font-bold my-5">Fusional Vergence Range Testing</h1>
 
-      <div>
-        <div className="w-full max-w-4xl">
+      <div className="w-full max-w-4xl">
+        <div>
           <ControlPanel
             onTestStart={handleTestStart}
             onTestComplete={handleTestAction}
