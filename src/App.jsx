@@ -75,62 +75,88 @@ const App = () => {
   });
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-900 text-white min-h-screen p-4">
-      <h1 className="text-4xl font-bold my-5">Fusional Vergence Range Testing</h1>
+    <div className="flex flex-col bg-gray-900 text-white min-h-screen">
+      <header className="w-full bg-gray-800 py-4 px-6 shadow-lg">
+        <h1 className="text-4xl font-bold text-center">Fusional Vergence Range Testing</h1>
+      </header>
 
-      <div className="w-full max-w-4xl">
-        <div>
-          <ControlPanel
-            onTestStart={handleTestStart}
-            onTestComplete={handleTestAction}
-            isTesting={isTesting}
-            breakPoint={breakPoint}
-            recoveryPoint={recoveryPoint}
-          />
+      <main className="flex-1 container mx-auto px-4 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Left Column - Controls */}
+          <div className="space-y-6">
+            <ControlPanel
+              onTestStart={handleTestStart}
+              onTestComplete={handleTestAction}
+              isTesting={isTesting}
+              breakPoint={breakPoint}
+              recoveryPoint={recoveryPoint}
+            />
+            
+            <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+              <h3 className="text-xl font-bold mb-4">Instructions</h3>
+              <ul className="list-disc pl-5 space-y-2 text-gray-300">
+                <li>Set your parameters and press "Start Test" to begin</li>
+                <li>Look at the stereo image through red-blue glasses</li>
+                <li>Press "Mark Break Point" (or key 'B') when the image breaks apart</li>
+                <li>Press "Mark Recovery Point" (or key 'R') when fusion is regained</li>
+              </ul>
+            </div>
+          </div>
 
-          <div className="mb-4">
-            {isTesting && (
-              <div className="bg-gray-800 p-2 rounded mb-2 text-center">
-                <p>Current Disparity: {Math.abs(currentDisparity).toFixed(1)} pixels</p>
-                {breakPoint && <p>Break Point: {breakPoint} arc seconds</p>}
+          {/* Right Column - Canvas and Results */}
+          <div className="space-y-6">
+            <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+              {isTesting && (
+                <div className="bg-gradient-to-r from-blue-900 to-blue-800 p-4 rounded-lg mb-4 shadow-lg">
+                  <p className="text-lg font-semibold flex items-center space-x-2">
+                    <span>Current Disparity:</span>
+                    <span className="text-blue-200">
+                      {Math.abs(currentDisparity).toFixed(1)} pixels
+                    </span>
+                  </p>
+                  {breakPoint && 
+                    <p className="text-lg font-semibold mt-2 flex items-center space-x-2">
+                      <span>Break Point:</span>
+                      <span className="text-yellow-200">
+                        {breakPoint} arc seconds
+                      </span>
+                    </p>
+                  }
+                </div>
+              )}
+
+              <div className="max-w-4xl mx-auto">
+                <RDSCanvas
+                  testState={testState}
+                  currentDisparity={currentDisparity}
+                  dotSize={testParameters.dotSize}
+                  dotDensity={testParameters.dotDensity}
+                  screenWidth={testParameters.screenWidth}
+                  viewingDistance={testParameters.viewingDistance}
+                />
+              </div>
+            </div>
+
+            {testResults.length > 0 && (
+              <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+                <h2 className="text-2xl font-bold mb-4">Test Results</h2>
+                <ResultsTable results={testResults} />
+                <div className="mt-4">
+                  <ResultsExport results={testResults} />
+                </div>
               </div>
             )}
-
-            <RDSCanvas
-              testState={testState}
-              currentDisparity={currentDisparity}
-              dotSize={testParameters.dotSize}
-              dotDensity={testParameters.dotDensity}
-              screenWidth={testParameters.screenWidth}
-              viewingDistance={testParameters.viewingDistance}
-            />
           </div>
         </div>
-
-        {testResults.length > 0 && (
-          <div className="mt-6">
-            <h2 className="text-2xl font-bold mb-2">Test Results</h2>
-            <ResultsTable results={testResults} />
-            <ResultsExport results={testResults} />
-          </div>
-        )}
 
         {testState === 'Complete' && (
-          <Alert
-            message={`Test completed successfully! Break point: ${breakPoint} arc seconds, Recovery point: ${recoveryPoint} arc seconds`}
-          />
+          <div className="mt-6">
+            <Alert
+              message={`Test completed successfully! Break point: ${breakPoint} arc seconds, Recovery point: ${recoveryPoint} arc seconds`}
+            />
+          </div>
         )}
-
-        <div className="mt-6 bg-gray-800 p-4 rounded">
-          <h3 className="text-xl font-bold mb-2">Instructions</h3>
-          <ul className="list-disc pl-5 space-y-1">
-            <li>Set your parameters and press "Start Test" to begin</li>
-            <li>Look at the stereo image through red-blue glasses</li>
-            <li>Press "Mark Break Point" (or key 'B') when the image breaks apart</li>
-            <li>Press "Mark Recovery Point" (or key 'R') when fusion is regained</li>
-          </ul>
-        </div>
-      </div>
+      </main>
     </div>
   );
 };

@@ -34,65 +34,72 @@ const ControlPanel = ({ onTestStart, onTestComplete, isTesting, breakPoint, reco
     };
 
     return (
-        <div className="control-panel p-4 bg-gray-800 rounded-lg mb-4">
-            <h2 className="text-2xl font-bold mb-4">Control Panel</h2>
+        <div className="bg-gray-800 rounded-lg shadow-lg">
+            <div className="p-6 border-b border-gray-700">
+                <h2 className="text-2xl font-bold">Control Panel</h2>
+            </div>
             
-            {!isTesting ? (
-                <>
-                    <TestParameters parameters={parameters} setParameters={setParameters} />
-                    <div className="flex flex-col space-y-4 mt-4">
-                        <button 
-                            onClick={handleStartClick} 
-                            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-                        >
-                            Start Test
-                        </button>
-                    </div>
-                </>
-            ) : (
-                <div className="space-y-4">
-                    <div className="text-white p-4 rounded bg-blue-900">
-                        <p className="font-bold">Test in Progress: {parameters.testDirection}</p>
-                        <p>Press the appropriate button when you experience the change:</p>
-                    </div>
-                    
-                    <div className="flex space-x-4">
-                        <button 
-                            onClick={handleBreakClick}
-                            disabled={breakPoint !== null}
-                            className={`py-2 px-4 rounded ${
-                                breakPoint === null 
-                                    ? 'bg-yellow-500 hover:bg-yellow-600' 
-                                    : 'bg-gray-500 cursor-not-allowed'
-                            }`}
-                        >
-                            Mark Break Point
-                        </button>
+            <div className="p-6">
+                {!isTesting ? (
+                    <>
+                        <TestParameters parameters={parameters} setParameters={setParameters} />
+                        <div className="mt-6">
+                            <button 
+                                onClick={handleStartClick} 
+                                className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold
+                                    hover:bg-blue-700 transition-colors duration-200"
+                            >
+                                Start Test
+                            </button>
+                        </div>
+                    </>
+                ) : (
+                    <div className="space-y-6">
+                        <div className="bg-blue-900 p-4 rounded-lg">
+                            <p className="font-bold text-lg mb-2">Test in Progress: {parameters.testDirection}</p>
+                            <p className="text-gray-300">Press the appropriate button when you experience the change:</p>
+                        </div>
                         
-                        <button 
-                            onClick={handleRecoveryClick}
-                            disabled={breakPoint === null || recoveryPoint !== null}
-                            className={`py-2 px-4 rounded ${
-                                breakPoint !== null && recoveryPoint === null
-                                    ? 'bg-green-500 hover:bg-green-600' 
-                                    : 'bg-gray-500 cursor-not-allowed'
-                            }`}
-                        >
-                            Mark Recovery Point
-                        </button>
+                        <div className="grid grid-cols-2 gap-4">
+                            <button 
+                                onClick={handleBreakClick}
+                                disabled={breakPoint !== null}
+                                className={`py-3 px-6 rounded-lg font-semibold transition-colors duration-200 ${
+                                    breakPoint === null 
+                                        ? 'bg-yellow-500 hover:bg-yellow-600' 
+                                        : 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                                }`}
+                            >
+                                Mark Break Point
+                            </button>
+                            
+                            <button 
+                                onClick={handleRecoveryClick}
+                                disabled={breakPoint === null || recoveryPoint !== null}
+                                className={`py-3 px-6 rounded-lg font-semibold transition-colors duration-200 ${
+                                    breakPoint !== null && recoveryPoint === null
+                                        ? 'bg-green-500 hover:bg-green-600' 
+                                        : 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                                }`}
+                            >
+                                Mark Recovery Point
+                            </button>
+                        </div>
+                        
+                        <div className="bg-gray-700 p-4 rounded-lg">
+                            <p className="text-gray-300">
+                                {breakPoint === null ? (
+                                    "Increasing disparity - press Mark Break Point when the image breaks into two images"
+                                ) : recoveryPoint === null ? (
+                                    "Moving back to unity - press Mark Recovery Point when the images fuse back together"
+                                ) : (
+                                    "Test complete"
+                                )}
+                            </p>
+                        </div>
                     </div>
-                    
-                    <div className="text-sm mt-2 text-gray-300">
-                        {breakPoint === null ? (
-                            <p>Increasing disparity - press "Mark Break Point" when the image breaks into two images</p>
-                        ) : recoveryPoint === null ? (
-                            <p>Moving back to unity - press "Mark Recovery Point" when the images fuse back together</p>
-                        ) : (
-                            <p>Test complete</p>
-                        )}
-                    </div>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 };
