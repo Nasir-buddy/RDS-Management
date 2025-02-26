@@ -2,6 +2,43 @@
 
 RDS Management is a software solution designed to measure fusional vergence ranges using Random Dot Stereogram (RDS) images. The project aims to present red and blue dot disparities to assess the break and recovery points of visual fusion. This tool is essential for clinical and research purposes in the field of vision science.
 
+## Project Structure 
+```
+   RDS-MANAGEMENT/
+├── node_modules/
+├── public/
+├── src/
+│   ├── components/
+│   │   ├── Canvas/
+│   │   │   ├── RDSCanvas.jsx
+│   │   │   └── useRDSRenderer.js
+│   │   └── Controls/
+│   │       ├── ControlPanel.jsx
+│   │       └── TestParameters.jsx
+│   ├── Results/
+│   │   ├── ResultsExport.jsx
+│   │   └── ResultsTable.jsx
+│   ├── ui/
+│   │   ├── Alert.jsx
+│   │   ├── Button.jsx
+│   │   └── Input.jsx
+│   ├── hooks/
+│   │   ├── useKeyPress.js
+│   │   └── useTestLogic.js
+│   └── utils/
+│       ├── calculations.js
+│       └── constants.js
+├── App.css
+├── App.jsx
+├── index.css
+├── main.jsx
+├── .gitignore
+├── .eslint.config.js
+├── index.html
+└── package-lock.json
+
+```
+
 ## Objective
 
 The goal of this project is to develop a software-based Random Dot Stereogram (RDS) solution that measures fusional vergence ranges by presenting red and blue dot disparities. The software will measure the disparity in arc seconds and detect the break point (where fusion is lost) and recovery point (where fusion is regained).
