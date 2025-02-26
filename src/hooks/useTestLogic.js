@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { TEST_TYPES, DEFAULT_INCREASE_RATE } from '../utils/constants';
 import { pixelsToArcSeconds } from '../utils/calculations';
 
+// Custom hook to handle test logic
 const useTestLogic = (viewingDistance = 60, screenWidth = 40) => {
     const [currentDisparity, setCurrentDisparity] = useState(0);
     const [breakPoint, setBreakPoint] = useState(null);
@@ -26,6 +27,7 @@ const useTestLogic = (viewingDistance = 60, screenWidth = 40) => {
         return () => clearInterval(timer);
     }, [isTesting, breakPoint, testDirection, disparityIncreaseRate]);
     
+    // Function to start a new test
     const startTest = useCallback((testParams = {}) => {
         const direction = testParams.testDirection || 'Convergence';
         setTestDirection(direction);
@@ -35,7 +37,7 @@ const useTestLogic = (viewingDistance = 60, screenWidth = 40) => {
         setRecoveryPoint(null);
         setIsTesting(true);
     }, []);
-    
+    // Function to mark the break point
     const markBreakPoint = useCallback(() => {
         if (isTesting && breakPoint === null) {
             // Convert current pixel disparity to arc seconds
@@ -48,7 +50,7 @@ const useTestLogic = (viewingDistance = 60, screenWidth = 40) => {
             setBreakPoint(breakDisparity);
         }
     }, [isTesting, breakPoint, currentDisparity, viewingDistance, screenWidth]);
-    
+    // Function to mark the recovery point
     const markRecoveryPoint = useCallback(() => {
         if (isTesting && breakPoint !== null && recoveryPoint === null) {
             // Convert current pixel disparity to arc seconds
@@ -73,12 +75,14 @@ const useTestLogic = (viewingDistance = 60, screenWidth = 40) => {
         return null;
     }, [isTesting, breakPoint, recoveryPoint, currentDisparity, testNumber, testDirection, viewingDistance, screenWidth]);
     
+    // Function to complete the test
     const completeTest = useCallback(() => {
         const result = markRecoveryPoint();
         setTestNumber(prev => prev + 1);
         return result;
     }, [markRecoveryPoint]);
     
+    // Return the test logic functions and state
     return {
         currentDisparity,
         breakPoint,

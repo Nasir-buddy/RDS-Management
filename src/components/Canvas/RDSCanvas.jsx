@@ -64,7 +64,7 @@ const RDSCanvas = ({
                     </p>
                 </div>
             )}
-            
+            {/* rendering the canvas */}
             <canvas
                 ref={canvasRef}
                 width={canvasSize.width}

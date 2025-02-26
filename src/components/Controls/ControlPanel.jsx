@@ -9,6 +9,7 @@ import {
   TEST_TYPES
 } from '../../utils/constants';
 
+// Component to display the control panel
 const ControlPanel = ({ onTestStart, onTestComplete, isTesting, breakPoint, recoveryPoint }) => {
     const [parameters, setParameters] = useState({
         viewingDistance: DEFAULT_VIEWING_DISTANCE_CM,
@@ -19,17 +20,16 @@ const ControlPanel = ({ onTestStart, onTestComplete, isTesting, breakPoint, reco
         testDirection: TEST_TYPES[0]
     });
 
+    // Function to handle the start button click
     const handleStartClick = () => {
         onTestStart(parameters);
     };
-
+    // Function to handle the break button click
     const handleBreakClick = () => {
-        // Handle the break point marking
         onTestComplete('break');
     };
-
+    // Function to handle the recovery button click
     const handleRecoveryClick = () => {
-        // Handle the recovery point marking
         onTestComplete('recovery');
     };
 

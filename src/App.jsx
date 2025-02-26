@@ -49,6 +49,8 @@ const App = () => {
     startTest(parameters);
   }, [startTest]);
 
+
+  // function to handle the test action and set the test results
   const handleTestAction = useCallback((action) => {
     if (action === 'break') {
       markBreakPoint();
@@ -61,13 +63,14 @@ const App = () => {
     }
   }, [markBreakPoint, completeTest]);
 
-  // Keyboard shortcuts
+  // Keyboard shortcuts for ease of use
   useKeyPress('b', () => {
     if (isTesting && breakPoint === null) {
       handleTestAction('break');
     }
   });
 
+  // Keyboard shortcuts for ease of use
   useKeyPress('r', () => {
     if (isTesting && breakPoint !== null && recoveryPoint === null) {
       handleTestAction('recovery');
@@ -84,6 +87,7 @@ const App = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Left Column - Controls */}
           <div className="space-y-6">
+            {/* rendering the control pannel */}
             <ControlPanel
               onTestStart={handleTestStart}
               onTestComplete={handleTestAction}
@@ -126,6 +130,7 @@ const App = () => {
               )}
 
               <div className="max-w-4xl mx-auto">
+                {/* rendering the rds canvas pannel */}
                 <RDSCanvas
                   testState={testState}
                   currentDisparity={currentDisparity}
@@ -142,6 +147,7 @@ const App = () => {
                 <h2 className="text-2xl font-bold mb-4">Test Results</h2>
                 <ResultsTable results={testResults} />
                 <div className="mt-4">
+                  {/* rendering the test report */}
                   <ResultsExport results={testResults} />
                 </div>
               </div>

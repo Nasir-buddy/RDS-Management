@@ -1,6 +1,7 @@
 
 import { useEffect } from 'react';
 
+// custom hook to handle key press events
 const useKeyPress = (targetKey, callback) => {
     useEffect(() => {
         const handleKeyPress = (event) => {

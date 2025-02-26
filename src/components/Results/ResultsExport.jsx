@@ -1,6 +1,7 @@
 import React from 'react';
 
 const ResultsExport = ({ results }) => {
+    // Function to download the results as a CSV file
     const downloadResults = () => {
         const csvContent = "data:text/csv;charset=utf-8," 
             + results.map(result => 
