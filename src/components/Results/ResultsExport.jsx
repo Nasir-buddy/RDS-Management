@@ -3,7 +3,12 @@ import React from 'react';
 const ResultsExport = ({ results }) => {
     // Function to download the results as a CSV file
     const downloadResults = () => {
+        // Define CSV headers
+        const headers = "Serial_No,Test_Type,Break_Point_(arc_sec),Recovery_Point_(arc_sec),Date,Timestamp";
+        
+        // Create CSV content with headers and data
         const csvContent = "data:text/csv;charset=utf-8," 
+            + headers + "\n"
             + results.map(result => 
                 `${result.test_num},${result.type},${result.break_point},${result.recovery_point},${result.time}`
             ).join("\n");
