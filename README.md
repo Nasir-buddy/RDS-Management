@@ -67,9 +67,10 @@ The goal of this project is to develop a software-based Random Dot Stereogram (R
 
 ## Technologies Used
 
-- **JavaScript**: 98.7%
-- **HTML**: 1.2%
-- **CSS**: 0.1%
+- **JavaScript**
+- **React.js**
+- **HTML**
+- **CSS**
 
 ## Getting Started
 
